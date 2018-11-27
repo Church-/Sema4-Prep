@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:latest
+    steps:
+      - checkout
+      - run:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t AWS_ACCOUNT_ID_HERE.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:$TAG .
+            docker login -u AWS -p password https://AWS_ACCOUNT_ID_HERE.dkr.ecr.us-east-1.amazonaws.com
+            docker push AWS_ACCOUNT_ID_HERE.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:$TAG
